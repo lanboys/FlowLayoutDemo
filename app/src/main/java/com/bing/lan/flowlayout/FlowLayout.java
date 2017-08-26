@@ -21,7 +21,7 @@ public class FlowLayout extends ViewGroup implements View.OnClickListener {
     LineFillProvider mLineFillProvider = new LineFillProvider() {
         @Override
         public boolean fillLine(int allLineSize, int lineIndex, int lineChildAllSize, int childIndex, float avg) {
-            return false;
+            return lineIndex != allLineSize - 1;
         }
     };
     ColorProvider mDefaultColorProvider = new ColorProvider() {
@@ -76,7 +76,11 @@ public class FlowLayout extends ViewGroup implements View.OnClickListener {
     private List<FlowBean> mFlowBeanList = new ArrayList<>();
     private int mBackgroundRadius = dp2px(8);
     private int mTextSize = dp2px(8);
-    private int mTextPadding = dp2px(2);
+
+    private int left = dp2px(2);
+    private int top = dp2px(2);
+    private int right = dp2px(2);
+    private int bottom = dp2px(2);
 
     public FlowLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -118,7 +122,18 @@ public class FlowLayout extends ViewGroup implements View.OnClickListener {
     }
 
     public void setTextPadding(int textPadding) {
-        mTextPadding = textPadding;
+        setTextPadding(textPadding, textPadding, textPadding, textPadding);
+    }
+
+    public void setTextPadding(int left, int top) {
+        setTextPadding(left, top, left, top);
+    }
+
+    public void setTextPadding(int left, int top, int right, int bottom) {
+        this.left = left;
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
     }
 
     @Override
@@ -264,7 +279,7 @@ public class FlowLayout extends ViewGroup implements View.OnClickListener {
         if (color != 0) {
             textView.setTextColor(color);
         }
-        textView.setPadding(mTextPadding, mTextPadding, mTextPadding, mTextPadding);
+        textView.setPadding(left, top, right, bottom);
 
         //LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         //textView.setLayoutParams(lp);
